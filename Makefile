@@ -30,3 +30,4 @@ clean:
 	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 linux: format get
+	make build TARGETOS=linux TARGETARCH=amd64
