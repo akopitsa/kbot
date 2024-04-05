@@ -2,7 +2,7 @@ APP := $(shell basename $(shell git remote get-url origin))
 REGISTRY := quay.io/projectquay
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux #linux darwin windows
-TARGETARCH=arm64 #amd64 arm64
+TARGETARCH= := $(dpkg --print-architecture) #amd64 arm64
 
 format:
 	gofmt -s -w ./
@@ -20,10 +20,10 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/den-vasyliev/kbot/cmd.appVersion=${VERSION}
 
 linux:
-	make build TARGETOS=linux TARGETARCH=amd64
+	make build TARGETOS=linux TARGETARCH=${TARGETARCH}
 
 mac:
-	make build TARGETOS=darwin TARGETARCH=amd64
+	make build TARGETOS=darwin TARGETARCH=$(uname -m)
 
 windows:
 	make build TARGETOS=windows TARGETARCH=amd64
