@@ -2,7 +2,34 @@ APP := $(shell basename $(shell git remote get-url origin))
 REGISTRY := quay.io/projectquay
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux #linux darwin windows
-TARGETARCH=amd64  #amd64 arm64
+# TARGETARCH=amd64  #amd64 arm64
+
+TARGETARCH := $(shell uname -s)
+
+ifeq ($(TARGETARCH),Linux)
+    # Linux specific commands
+    TARGETARCH = LINUX
+endif
+ifeq ($(TARGETARCH),Darwin)
+    # Mac OS X specific commands
+    TARGETARCH = MAC
+endif
+ifeq ($(TARGETARCH),FreeBSD)
+    # FreeBSD specific commands
+    TARGETARCH = FREEBSD
+endif
+ifeq ($(TARGETARCH),AIX)
+    # AIX specific commands
+    TARGETARCH = AIX
+endif
+ifeq ($(TARGETARCH),SunOS)
+    # Solaris specific commands
+    TARGETARCH = SOLARIS
+endif
+ifeq ($(TARGETARCH),Windows_NT)
+    # Windows specific commands
+    TARGETARCH = WINDOWS
+endif
 
 format:
 	gofmt -s -w ./
