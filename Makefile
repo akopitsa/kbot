@@ -29,7 +29,7 @@ windows:
 	make build TARGETOS=windows TARGETARCH=amd64
 
 arm:
-	make build TARGETOS=linux TARGETARCH=$(shell dpkg --print-architecture)
+	make build TARGETOS=linux TARGETARCH=$(shell uname -m)
 
 image:
 	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}  --build-arg TARGETARCH=${TARGETARCH}
