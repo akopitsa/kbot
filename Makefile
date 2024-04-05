@@ -3,31 +3,33 @@ REGISTRY := quay.io/projectquay
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux #linux darwin windows
 
-TARGETARCH := $(shell uname -s)
+TARGETOS := $(shell uname -s)
 
-ifeq ($(TARGETARCH),Linux)
+ifeq ($(TARGETOS),Linux)
     # Linux specific commands
-    TARGETARCH = LINUX
+    TARGETOS = linux
+	TARGETARCH=$(shell dpkg --print-architecture)
 endif
-ifeq ($(TARGETARCH),Darwin)
+ifeq ($(TARGETOS),Darwin)
     # Mac OS X specific commands
-    TARGETARCH = MAC
+    TARGETOS = Mac
+	TARGETARCH=$(shell uname -m)
 endif
-ifeq ($(TARGETARCH),FreeBSD)
+ifeq ($(TARGETOS),FreeBSD)
     # FreeBSD specific commands
-    TARGETARCH = FREEBSD
+    TARGETOS = FREEBSD
 endif
-ifeq ($(TARGETARCH),AIX)
+ifeq ($(TARGETOS),AIX)
     # AIX specific commands
-    TARGETARCH = AIX
+    TARGETOS = AIX
 endif
-ifeq ($(TARGETARCH),SunOS)
+ifeq ($(TARGETOS),SunOS)
     # Solaris specific commands
-    TARGETARCH = SOLARIS
+    TARGETOS = SOLARIS
 endif
-ifeq ($(TARGETARCH),Windows_NT)
+ifeq ($(TARGETOS),Windows_NT)
     # Windows specific commands
-    TARGETARCH = WINDOWS
+    TARGETOS = Windows
 endif
 
 format:
